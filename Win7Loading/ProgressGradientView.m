@@ -135,11 +135,8 @@ static const int animationFramesPerSec = 30;
     [maskPath appendPath:cutoutPath];
     if (animated) {
         CABasicAnimation *anim = [CABasicAnimation animationWithKeyPath:@"path"];
-        anim.delegate = self;
         anim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
         anim.duration = .3;
-        anim.removedOnCompletion = NO;
-        anim.fillMode = kCAFillModeForwards;
         anim.fromValue = (__bridge id)(mask.path);
         anim.toValue = (__bridge id)(maskPath.CGPath);
         [mask addAnimation:anim forKey:@"path"];
@@ -150,7 +147,11 @@ static const int animationFramesPerSec = 30;
 
 }
 - (void)setProgress:(float)progress{
-    [self setProgress:progress animated:YES];
+    if (progress==0.) {
+        [self setProgress:progress animated:NO];
+    }else{
+        [self setProgress:progress animated:YES];
+    }
 }
 -(void)dealloc{
     if (animationTimer && [animationTimer isValid])

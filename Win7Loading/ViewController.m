@@ -27,6 +27,9 @@
     int re=rand()%10;
     if (re==2) {
         progress+=0.02;
+        if (progress>1.1) {
+            progress=0.;
+        }
         [pgv setProgress:progress];
     }
 }
